@@ -115,7 +115,7 @@ Desenvolvido por RYANSTACK 💻
 ## 📸 Demonstração do sistema
 
 ### 🔐 Tela de login
-![Tela de login do SO BANK](login-banco-so.png)
+![Tela de login do SO BANK](so-bank-login.png)
 
 ### 📊 Painel principal
 ![Painel principal do SO BANK](painel.png)
