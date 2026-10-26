@@ -112,3 +112,13 @@ Este repositório é destinado à apresentação do projeto e ao aprendizado.
 Desenvolvido por RYANSTACK 💻
 
 </div>
+## 📸 Demonstração do sistema
+
+### 🔐 Tela de login
+![Tela de login do SO BANK](login-banco-so.png)
+
+### 📊 Painel principal
+![Painel principal do SO BANK](painel.png)
+
+### 💳 Extratos
+![Tela de extratos do SO BANK](extrato.png)
