@@ -1,0 +1,18 @@
+# Configurações locais e credenciais
+config.php
+config.local.php
+.env
+.env.*
+!.env.example
+
+# Backups e exportações de banco (podem conter dados pessoais)
+*.sql
+*.sql.gz
+*.dump
+*.bak
+
+# Arquivos temporários do sistema/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,12 @@
+<?php
+require_once __DIR__.'/includes/functions.php'; exigir_tipo('gerente'); $titulo='Funcionários'; $erro='';
+if($_SERVER['REQUEST_METHOD']==='POST'){
+ $acao=$_POST['acao']??''; $nome=trim($_POST['nome']??''); $senhaNova=$_POST['senha']??'';
+ if($acao==='cadastrar'){
+  if($nome===''||$senhaNova==='') $erro='Preencha nome e senha.';
+  elseif(strlen($nome)>30) $erro='O nome deve ter no máximo 30 caracteres.';
+  else {$hash=password_hash($senhaNova,PASSWORD_DEFAULT);$stmt=mysqli_prepare($conexao,'INSERT INTO tbfuncionarios (nome, senha) VALUES (?, ?)');mysqli_stmt_bind_param($stmt,'ss',$nome,$hash);if(mysqli_stmt_execute($stmt)){$_SESSION['mensagem']='Funcionário cadastrado com sucesso.';redirecionar('funcionarios.php');}$erro='Não foi possível cadastrar. Verifique se o nome já existe.';mysqli_stmt_close($stmt);}
+ } elseif($acao==='excluir'){$nomeExcluir=trim($_POST['nome_excluir']??'');$stmt=mysqli_prepare($conexao,'DELETE FROM tbfuncionarios WHERE nome=?');mysqli_stmt_bind_param($stmt,'s',$nomeExcluir);mysqli_stmt_execute($stmt);$_SESSION['mensagem']='Funcionário excluído (se o nome existia).';redirecionar('funcionarios.php');}
+}
+include __DIR__.'/includes/header.php';$lista=mysqli_query($conexao,'SELECT nome FROM tbfuncionarios ORDER BY nome'); ?>
+<div class="cabecalho-pagina"><div><span class="etiqueta">ADMINISTRAÇÃO</span><h1>Funcionários</h1><p>Cadastre e consulte a equipe do SO BANK.</p></div></div><?php if($erro): ?><div class="alerta"><?=e($erro)?></div><?php endif; ?><div class="duas-colunas"><section class="painel"><h2>Cadastrar funcionário</h2><form method="post" autocomplete="off"><input type="hidden" name="acao" value="cadastrar"><label>Nome do funcionário</label><input name="nome" maxlength="30" required><label>Senha</label><input name="senha" type="password" required><button class="botao botao-principal">Cadastrar funcionário</button></form></section><section class="painel"><h2>Funcionários cadastrados</h2><div class="tabela-responsiva"><table><thead><tr><th>Nome</th><th>Ação</th></tr></thead><tbody><?php while($f=$lista?mysqli_fetch_assoc($lista):null): ?><tr><td><?=e($f['nome'])?></td><td><form method="post" onsubmit="return confirm('Deseja excluir este funcionário?')"><input type="hidden" name="acao" value="excluir"><input type="hidden" name="nome_excluir" value="<?=e($f['nome'])?>"><button class="botao botao-perigo">Excluir</button></form></td></tr><?php endwhile; ?></tbody></table></div></section></div><?php include __DIR__.'/includes/footer.php'; ?>
